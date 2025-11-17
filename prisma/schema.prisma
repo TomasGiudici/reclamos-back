@@ -44,6 +44,9 @@ model TipoReclamo {
   nombre         String
   descripcion    String?
   reclamos       Reclamo[]
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  deletedAt      DateTime?
 }
 
 model Area {
