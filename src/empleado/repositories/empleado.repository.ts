@@ -3,6 +3,8 @@ import { IEmpleadoRepository } from "./empleado.repository.interface";
 import { PrismaService } from "src/prisma/prisma.service";
 import { Empleado } from "@prisma/client";
 import { UsuarioCreateData } from "src/common/interfaces/usuario-create.interface";
+import { UpdateClienteDto } from "src/cliente/dto/update.cliente.dto";
+import { EmpleadoUpdateData } from "../interfaces/empleado-update.interface";
 
 @Injectable()
 export class EmpleadoRepository implements IEmpleadoRepository {
@@ -43,7 +45,6 @@ export class EmpleadoRepository implements IEmpleadoRepository {
         return empleado;
     }
 
-  // Buscar por id
     async findById(id: string): Promise<Empleado | null> {
         const empleado = await this.prisma.empleado.findFirst({
             where: { id },
@@ -56,26 +57,12 @@ export class EmpleadoRepository implements IEmpleadoRepository {
         return empleado;
     }
 
-  // Actualizar un cliente
-    //async update(id: string, data: UpdateClienteDto): Promise<Cliente> {
-    //    const cliente = await this.prisma.cliente.findFirst({
-    //        where: { id },
-    //    });
-//
-    //    if (!cliente || cliente.deletedAt) {
-    //        throw new NotFoundException(`El cliente con id "${id}" no existe`);
-    //    }
-//
-    //return this.prisma.cliente.update({
-    //    where: { id: cliente.id },
-    //    data: {
-    //        nombre: data.nombre,
-    //        telefono: data.telefono,
-    //        email: data.email,
-    //        updatedAt: new Date(),
-    //        },
-    //    });
-    //}
+    async update(id: string, data: EmpleadoUpdateData): Promise<Empleado> {
+        return this.prisma.cliente.update({
+            where: { id },
+            data,
+        });
+    }
 
  
     async softDelete(id: string): Promise<void> {

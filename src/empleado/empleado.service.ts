@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { RegisterDto } from 'src/auth/dto/register.dto';
 import { EmpleadoRepository } from './repositories/empleado.repository';
 import { toEmpleadoDto } from './mappers/toEmpleadoDto.mapper';
 import { EmpleadoDto } from './dto/empleado.dto';
 import { toUsuarioEntity } from 'src/common/mappers/toUsuarioEntity.mapper';
+import { UpdateEmpleadoDto } from './dto/update.empleado.dto';
+import { toEmpleadoUpdateData } from './mappers/toEmpleadoParcial.mapper';
 
 @Injectable()
 export class EmpleadoService {
@@ -21,8 +23,21 @@ export class EmpleadoService {
     }
   }
 
-  findAll() {
-    return `This action returns all cliente`;
+  async update(id: string, dto: UpdateEmpleadoDto) {
+    const existing = await this.empleadoRepository.findById(id);
+    if (!existing) {
+      throw new BadRequestException('El usuario no existe.');
+    }
+  
+    if (dto.email) {
+      const emailInUse = await this.empleadoRepository.findByEmail(dto.email);
+      if (emailInUse && emailInUse.id !== id) {
+        throw new BadRequestException('El email ya está en uso.');
+      }
+    }
+  
+    const updatedData = toEmpleadoUpdateData(dto);
+    return this.empleadoRepository.update(id, updatedData);
   }
 
   async findOne(email: string): Promise<EmpleadoDto | null> {
@@ -31,10 +46,6 @@ export class EmpleadoService {
       return null;
     }
     return toEmpleadoDto(empleado);
-  }
-
-  update() {
-    return `This action updates a cliente`;
   }
 
   remove(id: number) {
