@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Put, Req } from '@nestjs/common';
+import { Controller, Body, UseGuards, Put, Req } from '@nestjs/common';
 import { ClienteService } from './cliente.service';
 import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
 import { UpdateClienteDto } from './dto/update.cliente.dto';
@@ -13,6 +13,7 @@ export class ClienteController {
 
   @Put('update')
   update(@Body() dto: UpdateClienteDto, @Req() req) {
+    console.log(req.user);
     const userId = req.user.id;
     return this.clienteService.update(userId, dto);
   }
