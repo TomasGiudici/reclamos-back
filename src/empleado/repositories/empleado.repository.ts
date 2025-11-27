@@ -7,8 +7,6 @@ import { EmpleadoUpdateData } from '../interfaces/empleado-update.interface';
 
 @Injectable()
 export class EmpleadoRepository implements IEmpleadoRepository {
-  constructor() {}
-
   async create(data: UsuarioCreateData): Promise<Empleado> {
     try {
       return await prisma.empleado.create({ data });
@@ -57,7 +55,7 @@ export class EmpleadoRepository implements IEmpleadoRepository {
   }
 
   async update(id: string, data: EmpleadoUpdateData): Promise<Empleado> {
-    return prisma.cliente.update({
+    return prisma.empleado.update({
       where: { id },
       data,
     });

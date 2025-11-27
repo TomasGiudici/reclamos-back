@@ -13,7 +13,6 @@ export class ClienteController {
 
   @Put('update')
   update(@Body() dto: UpdateClienteDto, @Req() req) {
-    console.log(req.user);
     const userId = req.user.id;
     return this.clienteService.update(userId, dto);
   }
