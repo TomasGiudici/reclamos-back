@@ -8,8 +8,6 @@ export function toClienteDto(cliente: Cliente): ClienteDto {
     telefono: cliente.telefono,
     nombre: cliente.nombre,
     role: cliente.role,
-    contraseña: cliente.contraseña
   };
-
   return dto;
 }

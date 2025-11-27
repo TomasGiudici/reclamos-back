@@ -1,9 +1,9 @@
+/* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { IEmpleadoRepository } from "./empleado.repository.interface";
 import { PrismaService } from "src/prisma/prisma.service";
 import { Empleado } from "@prisma/client";
 import { UsuarioCreateData } from "src/common/interfaces/usuario-create.interface";
-import { UpdateClienteDto } from "src/cliente/dto/update.cliente.dto";
 import { EmpleadoUpdateData } from "../interfaces/empleado-update.interface";
 
 @Injectable()

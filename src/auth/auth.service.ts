@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
@@ -7,6 +8,13 @@ import { ClienteDto } from 'src/cliente/dto/cliente.dto';
 import { EmpleadoDto } from 'src/empleado/dto/empleado.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+
+type BcryptTyped = {
+  hash: (data: string | Buffer, saltOrRounds: number | string) => Promise<string>;
+  compare: (data: string | Buffer, encrypted: string) => Promise<boolean>;
+};
+
+const bcryptSafe = bcrypt as unknown as BcryptTyped;
 
 @Injectable()
 export class AuthService {
@@ -30,40 +38,50 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto): Promise<{ access_token: string }> {
-    const { email, contraseña } = loginDto;
+  const { email, contraseña } = loginDto;
 
-    // 1. Buscar cliente
-    const cliente = await this.clienteService.findOne(email);
+  // 1. Buscar cliente
+  const cliente = await this.clienteService.findForAuth(email);
 
-    if (cliente) {
-      // Validar contraseña del cliente
-      const contraseñaValida = await this.validarContraseña(cliente, contraseña);
-      if (!contraseñaValida) {
-        throw new UnauthorizedException('Credenciales inválidas.');
-      }
+  if (cliente) {
+    const contraseñaValida = await this.validarContraseña(
+      cliente.contraseña,
+      contraseña
+    );
 
-      return this.firmarToken(cliente.id, 'CLIENTE');
+    if (!contraseñaValida) {
+      throw new UnauthorizedException('Credenciales inválidas.');
     }
 
-    // 2. Buscar empleado
-    const empleado = await this.empleadoService.findOne(email);
-
-    if (empleado) {
-      // Validar contraseña del empleado
-      const contraseñaValida = await this.validarContraseña(empleado, contraseña);
-      if (!contraseñaValida) {
-        throw new UnauthorizedException('Credenciales inválidas.');
-      }
-
-      return this.firmarToken(empleado.id, 'EMPLEADO');
-    }
-
-    // 3. Si no se encontró en ninguna tabla
-    throw new UnauthorizedException('Credenciales inválidas.');
+    return this.firmarToken(cliente.id, cliente.role);
   }
 
-  private async validarContraseña(usuario: any, contraseñaPlana: string): Promise<boolean> {
-    return bcrypt.compare(contraseñaPlana, usuario.contraseña);
+  // 2. Buscar empleado
+  const empleado = await this.empleadoService.findForAuth(email);
+
+  if (empleado) {
+    const contraseñaValida = await this.validarContraseña(
+      empleado.contraseña,
+      contraseña
+    );
+
+    if (!contraseñaValida) {
+      throw new UnauthorizedException('Credenciales inválidas.');
+    }
+
+    return this.firmarToken(empleado.id, empleado.role);
+  }
+
+  // 3. No existe en ninguna tabla
+  throw new UnauthorizedException('Credenciales inválidas.');
+}
+
+
+  private async validarContraseña(
+    contraseñaHash: string,
+    contraseñaPlana: string
+  ): Promise<boolean> {
+    return bcrypt.compare(contraseñaPlana, contraseñaHash);
   }
 
   async validarEmailDisponible(email: string): Promise<void> {
@@ -86,9 +104,8 @@ export class AuthService {
     return existeEmpleado;
   }
 
-  async transformarContraseña(registerDtoDto: RegisterDto): Promise<void> {
-    const hash = await bcrypt.hash(registerDtoDto.contraseña, 10);
-    registerDtoDto.contraseña = hash;
+  private async transformarContraseña(registerDto: RegisterDto): Promise<void> {
+    registerDto.contraseña = await bcryptSafe.hash(registerDto.contraseña, 10);
   }
 
   private async firmarToken(id: string, role: string): Promise<{ access_token: string }> {

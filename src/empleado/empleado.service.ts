@@ -6,20 +6,23 @@ import { EmpleadoDto } from './dto/empleado.dto';
 import { toUsuarioEntity } from 'src/common/mappers/toUsuarioEntity.mapper';
 import { UpdateEmpleadoDto } from './dto/update.empleado.dto';
 import { toEmpleadoUpdateData } from './mappers/toEmpleadoParcial.mapper';
+import { AuthDto } from 'src/common/dtos/auth.dto';
+import { AuthMapper } from 'src/common/mappers/toAuthDto.mapper';
 
 @Injectable()
 export class EmpleadoService {
-  constructor(
-    private readonly empleadoRepository: EmpleadoRepository
-  ) {}
+  constructor(private readonly empleadoRepository: EmpleadoRepository) {}
 
   async register(registerDto: RegisterDto): Promise<EmpleadoDto> {
     try {
       const data = toUsuarioEntity(registerDto);
       const empleado = await this.empleadoRepository.create(data);
       return toEmpleadoDto(empleado);
-    } catch (error) {
-      throw new Error(`Error al crear el empleado: ${error.message}`);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new Error(`Error al crear el cliente: ${error.message}`);
+      }
+      throw new Error('Error al crear el cliente: error desconocido');
     }
   }
 
@@ -28,21 +31,21 @@ export class EmpleadoService {
     if (!existing) {
       throw new BadRequestException('El usuario no existe.');
     }
-  
+
     if (dto.email) {
       const emailInUse = await this.empleadoRepository.findByEmail(dto.email);
       if (emailInUse && emailInUse.id !== id) {
         throw new BadRequestException('El email ya está en uso.');
       }
     }
-  
+
     const updatedData = toEmpleadoUpdateData(dto);
     return this.empleadoRepository.update(id, updatedData);
   }
 
   async findOne(email: string): Promise<EmpleadoDto | null> {
     const empleado = await this.empleadoRepository.findByEmail(email);
-    if(!empleado) {
+    if (!empleado) {
       return null;
     }
     return toEmpleadoDto(empleado);
@@ -50,5 +53,13 @@ export class EmpleadoService {
 
   remove(id: number) {
     return `This action removes a #${id} cliente`;
+  }
+
+  async findForAuth(email: string): Promise<AuthDto | null> {
+    const empleado = await this.empleadoRepository.findByEmail(email);
+    if (empleado) {
+      return AuthMapper.toAuthDto(empleado, 'EMPLEADO');
+    }
+    return null;
   }
 }

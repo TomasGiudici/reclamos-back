@@ -6,26 +6,29 @@ import { ClienteDto } from './dto/cliente.dto';
 import { toUsuarioEntity } from 'src/common/mappers/toUsuarioEntity.mapper';
 import { UpdateClienteDto } from './dto/update.cliente.dto';
 import { toClienteUpdateData } from './mappers/toClienteParcial.mapper';
+import { AuthDto } from 'src/common/dtos/auth.dto';
+import { AuthMapper } from 'src/common/mappers/toAuthDto.mapper';
 
 @Injectable()
 export class ClienteService {
-  constructor(
-    private readonly clienteRepository: ClienteRepository
-  ) {}
+  constructor(private readonly clienteRepository: ClienteRepository) {}
 
   async register(registerDto: RegisterDto): Promise<ClienteDto> {
     try {
       const data = toUsuarioEntity(registerDto);
       const cliente = await this.clienteRepository.create(data);
       return toClienteDto(cliente);
-    } catch (error) {
-      throw new Error(`Error al crear el cliente: ${error.message}`);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new Error(`Error al crear el cliente: ${error.message}`);
+      }
+      throw new Error('Error al crear el cliente: error desconocido');
     }
   }
 
   async findOne(email: string): Promise<ClienteDto | null> {
     const cliente = await this.clienteRepository.findByEmail(email);
-    if(!cliente) {
+    if (!cliente) {
       return null;
     }
     return toClienteDto(cliente);
@@ -50,5 +53,13 @@ export class ClienteService {
 
   remove(id: number) {
     return `This action removes a #${id} cliente`;
+  }
+
+  async findForAuth(email: string): Promise<AuthDto | null> {
+    const cliente = await this.clienteRepository.findByEmail(email);
+    if (cliente) {
+      return AuthMapper.toAuthDto(cliente, 'CLIENTE');
+    }
+    return null;
   }
 }

@@ -1,9 +1,9 @@
+/* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { IClienteRepository } from "./cliente.repository.interface";
 import { PrismaService } from "src/prisma/prisma.service";
 import { Cliente } from "@prisma/client";
 import { UsuarioCreateData } from "src/common/interfaces/usuario-create.interface";
-import { UpdateClienteDto } from "../dto/update.cliente.dto";
 import { ClienteUpdateData } from "../interfaces/cliente-update.interface";
 
 @Injectable()
@@ -64,7 +64,6 @@ export class ClienteRepository implements IClienteRepository {
         });
     }
 
- 
     async softDelete(id: string): Promise<void> {
         const cliente = await this.prisma.cliente.findFirst({
             where: { id },

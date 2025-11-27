@@ -8,6 +8,6 @@ import { EmpleadoRepository } from './repositories/empleado.repository';
   imports: [PrismaModule],
   controllers: [EmpleadoController],
   providers: [EmpleadoService, EmpleadoRepository],
-  exports: [EmpleadoService]
+  exports: [EmpleadoService],
 })
 export class EmpleadoModule {}

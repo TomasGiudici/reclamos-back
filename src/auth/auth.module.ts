@@ -6,6 +6,8 @@ import { EmpleadoModule } from 'src/empleado/empleado.module';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+/* eslint-disable prettier/prettier */
+
 
 @Module({
   imports: [
