@@ -8,6 +8,7 @@ import { UpdateEmpleadoDto } from './dto/update.empleado.dto';
 import { toEmpleadoUpdateData } from './mappers/toEmpleadoParcial.mapper';
 import { AuthDto } from 'src/common/dtos/auth.dto';
 import { AuthMapper } from 'src/common/mappers/toAuthDto.mapper';
+import { Roles } from 'src/common/enums/roles.enum';
 
 @Injectable()
 export class EmpleadoService {
@@ -58,7 +59,7 @@ export class EmpleadoService {
   async findForAuth(email: string): Promise<AuthDto | null> {
     const empleado = await this.empleadoRepository.findByEmail(email);
     if (empleado) {
-      return AuthMapper.toAuthDto(empleado, 'EMPLEADO');
+      return AuthMapper.toAuthDto(empleado, Roles.EMPLEADO);
     }
     return null;
   }

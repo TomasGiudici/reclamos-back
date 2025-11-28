@@ -8,6 +8,7 @@ import { ClienteDto } from 'src/cliente/dto/cliente.dto';
 import { EmpleadoDto } from 'src/empleado/dto/empleado.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { Roles } from 'src/common/enums/roles.enum';
 
 type BcryptTyped = {
   hash: (data: string | Buffer, saltOrRounds: number | string) => Promise<string>;
@@ -29,7 +30,7 @@ export class AuthService {
     await this.validarEmailDisponible(registerDto.email);
     await this.transformarContraseña(registerDto);
     const cliente = await this.clienteService.register(registerDto);
-    return this.firmarToken(cliente.id, 'CLIENTE');
+    return this.firmarToken(cliente.id, Roles.CLIENTE);
   }
 
   async registerEmpleado(
@@ -38,7 +39,7 @@ export class AuthService {
     await this.validarEmailDisponible(registerDto.email);
     await this.transformarContraseña(registerDto);
     const empleado = await this.empleadoService.register(registerDto);
-    return this.firmarToken(empleado.id, 'EMPLEADO');
+    return this.firmarToken(empleado.id, Roles.EMPLEADO);
   }
 
   async login(loginDto: LoginDto): Promise<{ access_token: string }> {
@@ -85,7 +86,12 @@ export class AuthService {
     contraseñaHash: string,
     contraseñaPlana: string
   ): Promise<boolean> {
-    return bcrypt.compare(contraseñaPlana, contraseñaHash);
+    try {
+      return await bcryptSafe.compare(contraseñaPlana, contraseñaHash);
+    } catch {
+      // If comparing fails for any reason, treat as invalid password
+      return false;
+    }
   }
 
   async validarEmailDisponible(email: string): Promise<void> {
