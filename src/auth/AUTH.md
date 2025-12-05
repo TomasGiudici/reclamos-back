@@ -27,3 +27,5 @@ También se pueden incluir directamente sobre el controller si todos los endpoin
     @Post()
     create() { ... }
   }
+
+  En el .env tienen que poner un JWT_SECRET="con el texto que quieran"
