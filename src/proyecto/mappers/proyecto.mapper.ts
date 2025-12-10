@@ -1,7 +1,7 @@
 import { Proyecto } from '@prisma/client';
-import { ProyectoRespuestaDto } from '../dto/respuesta-proyecto.dto';
+import { ProyectoRespuestaDto } from '../dtos/respuesta-proyecto.dto';
 import { ProyectoInterfaz } from '../interfaces/proyecto.interfaz';
-import { CreateProyectoDto } from '../dto/create-proyecto.dto';
+import { CreateProyectoDto } from '../dtos/create-proyecto.dto';
 
 export function aProyectoDto(proyecto: Proyecto): ProyectoRespuestaDto {
   const { id, nombre, descripcion, tipoProyectoId } = proyecto;

@@ -1,10 +1,10 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { CreateProyectoDto } from './dto/create-proyecto.dto';
-import { UpdateProyectoDto } from './dto/update-proyecto.dto';
+import { CreateProyectoDto } from './dtos/create-proyecto.dto';
+import { UpdateProyectoDto } from './dtos/update-proyecto.dto';
 import type { IProyectoRepository } from './repositories/proyecto.repository.interface';
-import { aProyectoDto, aProyectoInterfaz } from './mapper/proyecto.mapper';
+import { aProyectoDto, aProyectoInterfaz } from './mappers/proyecto.mapper';
 import { ProyectoInterfaz } from './interfaces/proyecto.interfaz';
-import { ProyectoValidador } from './validator/proyecto.validator';
+import { ProyectoValidador } from './validators/proyecto.validator';
 
 @Injectable()
 export class ProyectoService {

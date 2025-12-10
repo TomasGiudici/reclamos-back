@@ -2,7 +2,7 @@ import {
   ProyectoDescripcionField,
   ProyectoNombreField,
   ProyectoTipoIdField,
-} from '../swagger/create-proyecto.dto.swagger';
+} from '../swaggers/create-proyecto.dto.swagger';
 
 export class CreateProyectoDto {
   @ProyectoNombreField()

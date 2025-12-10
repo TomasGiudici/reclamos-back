@@ -1,4 +1,4 @@
-import { RegisterDto } from '../../auth/dto/register.dto';
+import { RegisterDto } from '../../auth/dtos/register.dto';
 import { Role } from '../../common/enums/role.enum';
 import { EmpleadoCreateData } from '../interfaces/empleado-create.interface';
 

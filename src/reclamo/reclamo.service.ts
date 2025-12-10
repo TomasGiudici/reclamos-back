@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateReclamoDto } from './dto/create-reclamo.dto';
-import { UpdateReclamoDto } from './dto/update-reclamo.dto';
+import { CreateReclamoDto } from './dtos/create-reclamo.dto';
+import { UpdateReclamoDto } from './dtos/update-reclamo.dto';
 
 @Injectable()
 export class ReclamoService {

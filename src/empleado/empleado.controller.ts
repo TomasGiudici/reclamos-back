@@ -3,7 +3,7 @@ import { EmpleadoService } from './empleado.service';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
 import { RolesGuard } from 'src/common/guards/roles.guard';
-import { UpdateEmpleadoDto } from './dto/update.empleado.dto';
+import { UpdateEmpleadoDto } from './dtos/update.empleado.dto';
 import {
   ApiBearerAuth,
   ApiOperation,

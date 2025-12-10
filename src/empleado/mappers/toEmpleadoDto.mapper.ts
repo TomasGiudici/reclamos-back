@@ -1,5 +1,5 @@
 import { Empleado } from '@prisma/client';
-import { EmpleadoDto } from '../dto/empleado.dto';
+import { EmpleadoDto } from '../dtos/empleado.dto';
 
 export function toEmpleadoDto(empleado: Empleado): EmpleadoDto {
   const dto: EmpleadoDto = {

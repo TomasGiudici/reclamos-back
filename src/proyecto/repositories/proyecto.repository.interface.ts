@@ -1,5 +1,5 @@
-import { CreateProyectoDto } from '../dto/create-proyecto.dto';
-import { UpdateProyectoDto } from '../dto/update-proyecto.dto';
+import { CreateProyectoDto } from '../dtos/create-proyecto.dto';
+import { UpdateProyectoDto } from '../dtos/update-proyecto.dto';
 import { Proyecto } from '@prisma/client';
 
 export interface IProyectoRepository {

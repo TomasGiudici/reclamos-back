@@ -1,9 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { RegisterDto } from 'src/auth/dto/register.dto';
+import { RegisterDto } from 'src/auth/dtos/register.dto';
 import { EmpleadoRepository } from './repositories/empleado.repository';
 import { toEmpleadoDto } from './mappers/toEmpleadoDto.mapper';
-import { EmpleadoDto } from './dto/empleado.dto';
-import { UpdateEmpleadoDto } from './dto/update.empleado.dto';
+import { EmpleadoDto } from './dtos/empleado.dto';
+import { UpdateEmpleadoDto } from './dtos/update.empleado.dto';
 import { toEmpleadoUpdateData } from './mappers/toEmpleadoParcial.mapper';
 import { AuthDto } from 'src/common/dtos/auth.dto';
 import { AuthMapper } from 'src/common/mappers/toAuthDto.mapper';

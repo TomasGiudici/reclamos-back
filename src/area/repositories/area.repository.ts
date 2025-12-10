@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { IAreaRepository } from './area.repository.interface';
 import prisma from '../../lib/db';
-import { CreateAreaDto } from '../dto/create-area.dto';
-import { UpdateAreaDto } from '../dto/update-area.dto';
+import { CreateAreaDto } from '../dtos/create-area.dto';
+import { UpdateAreaDto } from '../dtos/update-area.dto';
 import { Area } from '@prisma/client';
 import { NotFoundException } from '@nestjs/common';
 

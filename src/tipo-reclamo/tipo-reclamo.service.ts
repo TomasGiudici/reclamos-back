@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { TipoReclamoRepository } from './repository/tipo-reclamo.repository';
-import { TipoReclamoDto } from './dto/tipo-reclamo.dto';
+import { TipoReclamoRepository } from './repositories/tipo-reclamo.repository';
+import { TipoReclamoDto } from './dtos/tipo-reclamo.dto';
 import { TipoReclamoMapper } from './mappers/tipo-reclamo.mapper';
 
 @Injectable()

@@ -3,7 +3,7 @@ import { TipoProyectoService } from './tipo-proyecto.service';
 import {
   SwaggerFindAllTipoProyecto,
   SwaggerFindOneTipoProyecto,
-} from './swagger/tipo-proyecto.swagger';
+} from './swaggers/tipo-proyecto.swagger';
 import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
 
 @UseGuards(JwtAuthGuard)

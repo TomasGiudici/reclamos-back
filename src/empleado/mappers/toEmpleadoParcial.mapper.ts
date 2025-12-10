@@ -1,5 +1,5 @@
 import { EmpleadoUpdateData } from '../interfaces/empleado-update.interface';
-import { UpdateEmpleadoDto } from '../dto/update.empleado.dto';
+import { UpdateEmpleadoDto } from '../dtos/update.empleado.dto';
 
 export function toEmpleadoUpdateData(
   dto: UpdateEmpleadoDto,

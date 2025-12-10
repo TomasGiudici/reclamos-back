@@ -1,9 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { RegisterDto } from 'src/auth/dto/register.dto';
+import { RegisterDto } from 'src/auth/dtos/register.dto';
 import { ClienteRepository } from './repositories/cliente.repository';
 import { toClienteDto } from './mappers/toClienteDto.mapper';
-import { ClienteDto } from './dto/cliente.dto';
-import { UpdateClienteDto } from './dto/update.cliente.dto';
+import { ClienteDto } from './dtos/cliente.dto';
+import { UpdateClienteDto } from './dtos/update.cliente.dto';
 import { toClienteUpdateData } from './mappers/toClienteParcial.mapper';
 import { AuthDto } from 'src/common/dtos/auth.dto';
 import { AuthMapper } from 'src/common/mappers/toAuthDto.mapper';

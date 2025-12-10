@@ -1,5 +1,5 @@
 import { TipoReclamo } from '@prisma/client';
-import { TipoReclamoDto } from '../dto/tipo-reclamo.dto';
+import { TipoReclamoDto } from '../dtos/tipo-reclamo.dto';
 
 export class TipoReclamoMapper {
   static toTipoReclamoDto(tipoReclamo: TipoReclamo): TipoReclamoDto {

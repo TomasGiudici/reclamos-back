@@ -1,4 +1,4 @@
-import { RegisterDto } from '../../auth/dto/register.dto';
+import { RegisterDto } from '../../auth/dtos/register.dto';
 import { ClienteCreateData } from '../interfaces/cliente-create.interface';
 import { Role } from '../../common/enums/role.enum';
 

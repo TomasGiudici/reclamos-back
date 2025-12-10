@@ -1,6 +1,6 @@
 import { TipoProyecto } from '@prisma/client';
-import { TipoProyectoRespuestaDto } from '../dto/respuesta-tipo-proyecto.dto';
-import { CreateTipoProyectoDto } from '../dto/create-tipo-proyecto.dto';
+import { TipoProyectoRespuestaDto } from '../dtos/respuesta-tipo-proyecto.dto';
+import { CreateTipoProyectoDto } from '../dtos/create-tipo-proyecto.dto';
 import { TipoProyectoInterfaz } from '../interfaces/tipo-proyecto.interfaz';
 
 export function aTipoProyectoDto(

@@ -1,7 +1,7 @@
 import {
   TipoProyectoDescripcionField,
   TipoProyectoNombreField,
-} from '../swagger/tipo-proyecto-dto.swagger';
+} from '../swaggers/tipo-proyecto-dto.swagger';
 
 export class CreateTipoProyectoDto {
   @TipoProyectoNombreField()

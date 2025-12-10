@@ -1,9 +1,9 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { CreateAreaDto } from './dto/create-area.dto';
-import { UpdateAreaDto } from './dto/update-area.dto';
-import { AreaRepository } from './repository/area.repository';
+import { CreateAreaDto } from './dtos/create-area.dto';
+import { UpdateAreaDto } from './dtos/update-area.dto';
+import { AreaRepository } from './repositories/area.repository';
 import { AreaMapper } from './mappers/area.mapper';
-import { AreaDto } from './dto/area.dto';
+import { AreaDto } from './dtos/area.dto';
 
 @Injectable()
 export class AreaService {

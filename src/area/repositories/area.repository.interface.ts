@@ -1,5 +1,5 @@
-import { CreateAreaDto } from '../dto/create-area.dto';
-import { UpdateAreaDto } from '../dto/update-area.dto';
+import { CreateAreaDto } from '../dtos/create-area.dto';
+import { UpdateAreaDto } from '../dtos/update-area.dto';
 import { Area } from '@prisma/client';
 
 export interface IAreaRepository {

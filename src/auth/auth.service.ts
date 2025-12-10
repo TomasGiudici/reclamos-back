@@ -1,11 +1,11 @@
 /* eslint-disable prettier/prettier */
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { RegisterDto } from './dto/register.dto';
-import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dtos/register.dto';
+import { LoginDto } from './dtos/login.dto';
 import { EmpleadoService } from 'src/empleado/empleado.service';
 import { ClienteService } from 'src/cliente/cliente.service';
-import { ClienteDto } from 'src/cliente/dto/cliente.dto';
-import { EmpleadoDto } from 'src/empleado/dto/empleado.dto';
+import { ClienteDto } from 'src/cliente/dtos/cliente.dto';
+import { EmpleadoDto } from 'src/empleado/dtos/empleado.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { Role } from 'src/common/enums/role.enum';

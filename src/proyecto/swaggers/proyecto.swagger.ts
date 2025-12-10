@@ -1,7 +1,7 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger';
-import { CreateProyectoDto } from '../dto/create-proyecto.dto';
-import { UpdateProyectoDto } from '../dto/update-proyecto.dto';
+import { CreateProyectoDto } from '../dtos/create-proyecto.dto';
+import { UpdateProyectoDto } from '../dtos/update-proyecto.dto';
 
 // ===========================
 //     CREATE
@@ -15,7 +15,8 @@ export function SwaggerCreateProyecto() {
     }),
     ApiBody({
       type: CreateProyectoDto,
-      description: 'Datos necesarios para crear el proyecto.',
+      description:
+        'Datos necesarios para crear el proyecto, además de estar logueado en la página.',
     }),
     ApiResponse({
       status: 201,
@@ -38,7 +39,7 @@ export function SwaggerCreateProyecto() {
 export function SwaggerFindAllProyecto() {
   return applyDecorators(
     ApiOperation({
-      summary: 'Obtiene todos los proyectos.',
+      summary: 'Obtiene todos los proyectos de un cliente.',
       description: 'Devuelve un listado de todos los proyectos registrados.',
     }),
     ApiResponse({

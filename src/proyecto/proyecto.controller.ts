@@ -10,8 +10,8 @@ import {
   Req,
 } from '@nestjs/common';
 import { ProyectoService } from './proyecto.service';
-import { CreateProyectoDto } from './dto/create-proyecto.dto';
-import { UpdateProyectoDto } from './dto/update-proyecto.dto';
+import { CreateProyectoDto } from './dtos/create-proyecto.dto';
+import { UpdateProyectoDto } from './dtos/update-proyecto.dto';
 import {
   SwaggerCreateProyecto,
   SwaggerFindAllProyecto,
@@ -19,7 +19,7 @@ import {
   SwaggerUpdateProyecto,
   SwaggerDeleteProyecto,
   SwaggerFindByTipoProyecto,
-} from './swagger/proyecto.swagger';
+} from './swaggers/proyecto.swagger';
 import { Role } from '../common/enums/role.enum';
 import { Roles } from '../common/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/common/guards/jwt.guard';

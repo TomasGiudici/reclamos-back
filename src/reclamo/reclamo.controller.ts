@@ -8,8 +8,8 @@ import {
   Delete,
 } from '@nestjs/common';
 import { ReclamoService } from './reclamo.service';
-import { CreateReclamoDto } from './dto/create-reclamo.dto';
-import { UpdateReclamoDto } from './dto/update-reclamo.dto';
+import { CreateReclamoDto } from './dtos/create-reclamo.dto';
+import { UpdateReclamoDto } from './dtos/update-reclamo.dto';
 
 @Controller('reclamo')
 export class ReclamoController {
