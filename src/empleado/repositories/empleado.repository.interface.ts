@@ -9,4 +9,5 @@ export interface IEmpleadoRepository {
   findById(id: string): Promise<Empleado | null>;
   update(id: string, data: EmpleadoUpdateData): Promise<Empleado>;
   softDelete(id: string): Promise<void>;
+  asignarArea(email: string, area: string): Promise<Empleado>;
 }

@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Role } from '@prisma/client';
+import { AreaDto } from 'src/area/dto/area.dto';
 
 export class EmpleadoDto {
   @ApiProperty({
@@ -32,4 +33,10 @@ export class EmpleadoDto {
     description: 'Rol asignado al empleado',
   })
   role: Role;
+
+  @ApiProperty({
+    example: 'Facturación',
+    description: 'Área asignada al empleado',
+  })
+  area: AreaDto | null;
 }

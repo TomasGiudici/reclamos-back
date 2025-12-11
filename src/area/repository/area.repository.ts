@@ -68,4 +68,15 @@ export class AreaRepository implements IAreaRepository {
     //podriamos poner algo de transacción porque sino si falla la actualización el área quedaría en un estado inconsistente
     return true;
   }
+
+  async findByName(nombre: string): Promise<Area> {
+    const area = await prisma.area.findFirst({
+      where: { nombre: nombre },
+    });
+
+    if (!area || area.deletedAt) {
+      throw new NotFoundException(`Área ${nombre} no encontrada`);
+    }
+    return area;
+  }
 }

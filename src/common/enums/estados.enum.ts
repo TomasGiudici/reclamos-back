@@ -1,0 +1,5 @@
+export enum Estados {
+  PENDIENTE = 'PENDIENTE',
+  EN_PROCESO = 'EN_PROCESO',
+  RESUELTO = 'RESUELTO',
+}

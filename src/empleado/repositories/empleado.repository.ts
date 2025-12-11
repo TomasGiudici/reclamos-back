@@ -76,4 +76,14 @@ export class EmpleadoRepository implements IEmpleadoRepository {
       data: { deletedAt: new Date() },
     });
   }
+
+  async asignarArea(email: string, area: string): Promise<Empleado> {
+    return await prisma.empleado.update({
+      where: { email: email },
+      data: { areaId: area },
+      include: {
+        area: true,
+      },
+    });
+  }
 }

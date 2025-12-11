@@ -9,10 +9,15 @@ import { toEmpleadoUpdateData } from './mappers/toEmpleadoParcial.mapper';
 import { AuthDto } from 'src/common/dtos/auth.dto';
 import { AuthMapper } from 'src/common/mappers/toAuthDto.mapper';
 import { Roles } from 'src/common/enums/roles.enum';
+import { AsignarAreaDto } from './dto/asignar.area.dto';
+import { AreaService } from 'src/area/area.service';
 
 @Injectable()
 export class EmpleadoService {
-  constructor(private readonly empleadoRepository: EmpleadoRepository) {}
+  constructor(
+    private readonly empleadoRepository: EmpleadoRepository,
+    private readonly areaService: AreaService,
+  ) {}
 
   async register(registerDto: RegisterDto): Promise<EmpleadoDto> {
     try {
@@ -62,5 +67,18 @@ export class EmpleadoService {
       return AuthMapper.toAuthDto(empleado, Roles.EMPLEADO);
     }
     return null;
+  }
+
+  async asignarArea(email: string, dto: AsignarAreaDto): Promise<EmpleadoDto> {
+    const areaDto = await this.areaService.findByName(dto.area);
+    if (!areaDto) {
+      throw new BadRequestException('El area no existe.');
+    }
+
+    const empleado = await this.empleadoRepository.asignarArea(
+      email,
+      areaDto.id,
+    );
+    return toEmpleadoDto(empleado);
   }
 }

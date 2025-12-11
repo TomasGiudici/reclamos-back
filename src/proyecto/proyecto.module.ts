@@ -13,6 +13,6 @@ import { ProyectoValidador } from './validator/proyecto.validator';
     ProyectoValidador,
     { provide: 'IProyectoRepository', useClass: ProyectoRepository },
   ],
-  exports: [ProyectoValidador],
+  exports: [ProyectoValidador, ProyectoService],
 })
 export class ProyectoModule {}

@@ -12,5 +12,6 @@ import { AreaRepository } from './repository/area.repository';
       useClass: AreaRepository,
     },
   ],
+  exports: [AreaService],
 })
 export class AreaModule {}

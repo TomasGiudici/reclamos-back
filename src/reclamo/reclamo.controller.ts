@@ -1,42 +1,26 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Req } from '@nestjs/common';
 import { ReclamoService } from './reclamo.service';
 import { CreateReclamoDto } from './dto/create-reclamo.dto';
-import { UpdateReclamoDto } from './dto/update-reclamo.dto';
+import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
 
 @Controller('reclamo')
 export class ReclamoController {
   constructor(private readonly reclamoService: ReclamoService) {}
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('CLIENTE')
   @Post()
-  create(@Body() createReclamoDto: CreateReclamoDto) {
-    return this.reclamoService.create(createReclamoDto);
+  create(@Body() dto: CreateReclamoDto, @Req() req) {
+    const userId = req.user.sub as string;
+    return this.reclamoService.create(dto, userId);
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('EMPLEADO')
   @Get()
-  findAll() {
-    return this.reclamoService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.reclamoService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateReclamoDto: UpdateReclamoDto) {
-    return this.reclamoService.update(+id, updateReclamoDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.reclamoService.remove(+id);
+  getReclamosPorArea() {
+    //return this.reclamoService.reclamosPorArea();
   }
 }

@@ -34,4 +34,9 @@ export class AreaService {
   async softDelete(id: string) {
     return this.repository.softDelete(id);
   }
+
+  async findByName(nombre: string): Promise<AreaDto | null> {
+    const area = await this.repository.findByName(nombre);
+    return AreaMapper.toAreaDto(area);
+  }
 }

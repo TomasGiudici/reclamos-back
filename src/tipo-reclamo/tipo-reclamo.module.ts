@@ -12,5 +12,6 @@ import { TipoReclamoRepository } from './repository/tipo-reclamo.repository';
       useClass: TipoReclamoRepository,
     },
   ],
+  exports: [TipoReclamoService],
 })
 export class TipoReclamoModule {}
