@@ -1,14 +1,14 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import { RegisterDto } from 'src/auth/dto/register.dto';
+import { RegisterDto } from 'src/auth/dtos/register.dto';
 import { toClienteDto } from './mappers/toClienteDto.mapper';
-import { ClienteDto } from './dto/cliente.dto';
-import { toUsuarioEntity } from 'src/common/mappers/toUsuarioEntity.mapper';
-import { UpdateClienteDto } from './dto/update.cliente.dto';
+import { ClienteDto } from './dtos/cliente.dto';
+import { UpdateClienteDto } from './dtos/update.cliente.dto';
 import { toClienteUpdateData } from './mappers/toClienteParcial.mapper';
 import { AuthDto } from 'src/common/dtos/auth.dto';
 import { AuthMapper } from 'src/common/mappers/toAuthDto.mapper';
-import { Roles } from 'src/common/enums/roles.enum';
 import type { IClienteRepository } from './repositories/cliente.repository.interface';
+import { Role } from 'src/common/enums/role.enum';
+import { toClienteEntity } from './mappers/toClienteEntity.mapper';
 
 @Injectable()
 export class ClienteService {
@@ -19,7 +19,7 @@ export class ClienteService {
 
   async register(registerDto: RegisterDto): Promise<ClienteDto> {
     try {
-      const data = toUsuarioEntity(registerDto);
+      const data = toClienteEntity(registerDto);
       const cliente = await this.clienteRepository.create(data);
       return toClienteDto(cliente);
     } catch (error: unknown) {
@@ -62,7 +62,7 @@ export class ClienteService {
   async findForAuth(email: string): Promise<AuthDto | null> {
     const cliente = await this.clienteRepository.findByEmail(email);
     if (cliente) {
-      return AuthMapper.toAuthDto(cliente, Roles.CLIENTE);
+      return AuthMapper.toAuthDto(cliente, Role.CLIENTE);
     }
     return null;
   }

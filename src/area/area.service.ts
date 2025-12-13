@@ -1,9 +1,9 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { CreateAreaDto } from './dto/create-area.dto';
-import { UpdateAreaDto } from './dto/update-area.dto';
+import { CreateAreaDto } from './dtos/create-area.dto';
+import { UpdateAreaDto } from './dtos/update-area.dto';
+import type { IAreaRepository } from './repositories/area.repository.interface';
 import { AreaMapper } from './mappers/area.mapper';
-import { AreaDto } from './dto/area.dto';
-import type { IAreaRepository } from './repository/area.repository.interface';
+import { AreaDto } from './dtos/area.dto';
 
 @Injectable()
 export class AreaService {
@@ -22,7 +22,7 @@ export class AreaService {
     return areas.map((area) => AreaMapper.toAreaDto(area));
   }
 
-  async findById(id: string): Promise<AreaDto | null> {
+  async findOne(id: string): Promise<AreaDto | null> {
     const area = await this.repository.findById(id);
     return AreaMapper.toAreaDto(area);
   }
@@ -37,5 +37,10 @@ export class AreaService {
 
   async softDelete(id: string) {
     return this.repository.softDelete(id);
+  }
+
+  async findByName(nombre: string): Promise<AreaDto | null> {
+    const area = await this.repository.findByName(nombre);
+    return AreaMapper.toAreaDto(area);
   }
 }

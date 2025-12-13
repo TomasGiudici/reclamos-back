@@ -1,13 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ClienteService } from './cliente.service';
-import { RegisterDto } from 'src/auth/dto/register.dto';
-import { UpdateClienteDto } from './dto/update.cliente.dto';
+import { RegisterDto } from 'src/auth/dtos/register.dto';
+import { UpdateClienteDto } from './dtos/update.cliente.dto';
 import { BadRequestException } from '@nestjs/common';
 import { toClienteDto } from './mappers/toClienteDto.mapper';
-import { toUsuarioEntity } from 'src/common/mappers/toUsuarioEntity.mapper';
+import { toClienteEntity } from './mappers/toClienteEntity.mapper';
 import { toClienteUpdateData } from './mappers/toClienteParcial.mapper';
 import { AuthMapper } from 'src/common/mappers/toAuthDto.mapper';
-import { Roles } from 'src/common/enums/roles.enum';
+import { Role } from 'src/common/enums/role.enum';
 
 const mockClienteEntity = {
   id: 'cli-123',
@@ -15,7 +15,7 @@ const mockClienteEntity = {
   contraseña: 'hashed123',
   nombre: 'Juan Pérez',
   telefono: '3511234567',
-  role: Roles.CLIENTE,
+  role: Role.CLIENTE,
   createdAt: new Date(),
   updatedAt: new Date(),
   deletedAt: null,
@@ -67,7 +67,7 @@ describe('ClienteService', () => {
       const result = await service.register(registerDto);
 
       expect(mockClienteRepository.create).toHaveBeenCalledWith(
-        toUsuarioEntity(registerDto),
+        toClienteEntity(registerDto),
       );
       expect(result).toEqual(toClienteDto(mockClienteEntity));
     });
@@ -184,7 +184,7 @@ describe('ClienteService', () => {
       const result = await service.findForAuth('test@cliente.com');
 
       expect(result).toEqual(
-        AuthMapper.toAuthDto(mockClienteEntity, Roles.CLIENTE),
+        AuthMapper.toAuthDto(mockClienteEntity, Role.CLIENTE),
       );
     });
 

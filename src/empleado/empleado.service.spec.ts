@@ -1,13 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EmpleadoService } from './empleado.service';
-import { RegisterDto } from 'src/auth/dto/register.dto';
-import { UpdateEmpleadoDto } from './dto/update.empleado.dto';
-import { BadRequestException } from '@nestjs/common';
-import { toEmpleadoDto } from './mappers/toEmpleadoDto.mapper';
-import { toUsuarioEntity } from 'src/common/mappers/toUsuarioEntity.mapper';
-import { toEmpleadoUpdateData } from './mappers/toEmpleadoParcial.mapper';
+import { RegisterDto } from 'src/auth/dtos/register.dto';
+import { UpdateEmpleadoDto } from './dtos/update.empleado.dto';
 import { AuthMapper } from 'src/common/mappers/toAuthDto.mapper';
-import { Roles } from 'src/common/enums/roles.enum';
+import { Role } from 'src/common/enums/role.enum';
+import { toEmpleadoDto } from './mappers/toEmpleadoDto.mapper';
+import { toEmpleadoEntity } from './mappers/toEmpleadoEntity.mapper';
+import { toEmpleadoUpdateData } from './mappers/toEmpleadoParcial.mapper';
+import { BadRequestException } from '@nestjs/common';
 
 const mockEmpleadoEntity = {
   id: 'emp-456',
@@ -15,7 +15,7 @@ const mockEmpleadoEntity = {
   contraseña: 'hashed456',
   nombre: 'Ana Gómez',
   telefono: '3519876543',
-  role: Roles.EMPLEADO,
+  role: Role.EMPLEADO,
   createdAt: new Date('2025-01-01'),
   updatedAt: new Date('2025-01-02'),
   deletedAt: null,
@@ -68,7 +68,7 @@ describe('EmpleadoService', () => {
       const result = await service.register(registerDto);
 
       expect(mockEmpleadoRepository.create).toHaveBeenCalledWith(
-        toUsuarioEntity(registerDto),
+        toEmpleadoEntity(registerDto),
       );
       expect(result).toEqual(toEmpleadoDto(mockEmpleadoEntity));
     });
@@ -188,7 +188,7 @@ describe('EmpleadoService', () => {
       const result = await service.findForAuth('empleado@test.com');
 
       expect(result).toEqual(
-        AuthMapper.toAuthDto(mockEmpleadoEntity, Roles.EMPLEADO),
+        AuthMapper.toAuthDto(mockEmpleadoEntity, Role.EMPLEADO),
       );
     });
 
