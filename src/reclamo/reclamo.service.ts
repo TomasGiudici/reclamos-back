@@ -5,6 +5,13 @@ import { ReclamoDto } from './dtos/reclamo.dto';
 import { toReclamoCreateData } from './mappers/toReclamoEntity';
 import { toReclamoDto } from './mappers/toReclamoDto';
 import { ReclamoValidator } from './validators/reclamo.validator';
+import { UpdateEstadoDto } from './dtos/update-estado.dto';
+import { ReasignarAreaDto } from './dtos/reasignar-area.dto';
+import { ReclamoHelper } from './helper/reclamo.helper';
+import {
+  toCambioEstadoClienteData,
+  toCambioEstadoData,
+} from 'src/cambio-estado/mappers/toCambioEstadoEntity';
 
 @Injectable()
 export class ReclamoService {
@@ -12,6 +19,7 @@ export class ReclamoService {
     @Inject('IReclamoRepository')
     private readonly repository: IReclamoRepository,
     private readonly validator: ReclamoValidator,
+    private readonly helper: ReclamoHelper,
   ) {}
 
   async create(dto: CreateReclamoDto, userId: string): Promise<ReclamoDto> {
@@ -30,5 +38,48 @@ export class ReclamoService {
   async findByCliente(clienteId: string): Promise<ReclamoDto[]> {
     const reclamos = await this.repository.findByCliente(clienteId);
     return reclamos.map(toReclamoDto);
+  }
+
+  async updateEstado(id: string, dto: UpdateEstadoDto, userId: string) {
+    //validar existencia del reclamo
+    await this.validator.validateReclamo(id);
+
+    // traer el cambio de estado actual del reclamo
+    const ultimoCambioEstado = await this.helper.findLastCambioEstado(id);
+
+    // validar los cambio de estados posibles
+    this.validator.validateCambioEstadoEmpleado(
+      ultimoCambioEstado.estado,
+      dto.estado,
+    );
+
+    const dataCambioEstado = toCambioEstadoData(
+      ultimoCambioEstado,
+      dto,
+      userId,
+    );
+
+    return await this.repository.updateEstado(id, dataCambioEstado);
+  }
+
+  async reassignArea(id: string, dto: ReasignarAreaDto, userId: string) {
+    //validar existencia del reclamo
+    await this.validator.validateReclamo(id);
+
+    await this.validator.validateArea(dto.areaId);
+
+    // traer el cambio de estado actual del reclamo
+    const cambioEstado = await this.helper.findLastCambioEstado(id);
+
+    // validar que el estado actual no sea Resuelto
+    this.validator.validateCambioEstadoCliente(cambioEstado.estado);
+
+    const dataCambioEstado = toCambioEstadoClienteData(
+      cambioEstado,
+      dto,
+      userId,
+    );
+
+    return await this.repository.reassignArea(dataCambioEstado);
   }
 }

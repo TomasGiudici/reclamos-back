@@ -9,4 +9,5 @@ export class CambioEstadoDto {
   descripcion: string | null;
   estado: Estados;
   empleadoId: string | null;
+  clienteId: string | null;
 }

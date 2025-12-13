@@ -50,6 +50,7 @@ model Area {
   descripcion  String?
   cambioEstado CambioEstado[]
   empleados    Empleado[]     @relation("EmpleadosEnArea")
+  
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
   deletedAt    DateTime?
@@ -63,6 +64,7 @@ model Proyecto {
   nombre      String
   descripcion String?
   reclamos    Reclamo[]
+  
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?
@@ -75,10 +77,11 @@ model TipoProyecto {
   id          String     @id @default(auto()) @map("_id") @db.ObjectId
   nombre      String
   descripcion String?
+  proyectos   Proyecto[] @relation("ProyectoATipoProyecto")
+
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   deletedAt   DateTime?
-  proyectos   Proyecto[] @relation("ProyectoATipoProyecto")
 }
 
 model Reclamo {
@@ -106,6 +109,7 @@ model TipoReclamo {
   nombre      String
   descripcion String?
   reclamos    Reclamo[]
+  
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?

@@ -11,5 +11,6 @@ export function toCambioEstadoDto(cambio: CambioEstado): CambioEstadoDto {
     descripcion: cambio.descripcion ?? null,
     estado: cambio.estado,
     empleadoId: cambio.empleadoId ?? null,
+    clienteId: cambio.clienteId ?? null,
   };
 }

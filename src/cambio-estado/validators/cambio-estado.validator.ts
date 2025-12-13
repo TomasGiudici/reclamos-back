@@ -5,7 +5,7 @@ export class CambioEstadoValidator {
   constructor(private readonly area: AreaService) {}
 
   async validateArea(id: string): Promise<boolean> {
-    const existe = await this.area.findById(id);
+    const existe = await this.area.findOne(id);
     if (!existe) {
       throw new BadRequestException('El area no existe.');
     }

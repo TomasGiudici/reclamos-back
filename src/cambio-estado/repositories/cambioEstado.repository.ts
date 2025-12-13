@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CambioEstado } from '@prisma/client';
+import { CambioEstado, Estados } from '@prisma/client';
 import prisma from '../../lib/db';
 import { CambioEstadoCreateData } from '../interfaces/cambioEstado-create.interface';
 import { ICambioEstadoRepository } from './cambioEstado.repository.interface';
@@ -10,11 +10,45 @@ export class CambioEstadoRepository implements ICambioEstadoRepository {
     try {
       return await prisma.cambioEstado.create({ data });
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`Error al crear el cambio de estado: ${error.message}`);
-      }
-
       throw new Error(`Error al crear el cambio de estado: ${String(error)}`);
     }
+  }
+
+  async close(reclamoId: string): Promise<void> {
+    try {
+      await prisma.cambioEstado.updateMany({
+        where: { reclamoId: reclamoId, fechaFin: null },
+        data: { fechaFin: new Date() },
+      });
+    } catch (error) {
+      throw new Error(`Error al cerrar el cambio de estado: ${String(error)}`);
+    }
+  }
+
+  async findByReclamoId(reclamoId: string): Promise<CambioEstado[]> {
+    try {
+      return await prisma.cambioEstado.findMany({ where: { reclamoId } });
+    } catch (error) {
+      throw new Error(`
+        Error al obtener los cambios de estado: ${String(error)}`);
+    }
+  }
+
+  async findByEstado(estado: Estados): Promise<CambioEstado[]> {
+    try {
+      return await prisma.cambioEstado.findMany({ where: { estado } });
+    } catch (error) {
+      throw new Error(`
+        Error al obtener los cambios de estado: ${String(error)}`);
+    }
+  }
+
+  async findLastCambioEstado(id: string): Promise<CambioEstado | null> {
+    return await prisma.cambioEstado.findFirst({
+      where: {
+        reclamoId: id,
+        fechaFin: null,
+      },
+    });
   }
 }

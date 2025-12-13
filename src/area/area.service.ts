@@ -21,7 +21,7 @@ export class AreaService {
     return areas.map((area) => AreaMapper.toAreaDto(area));
   }
 
-  async findById(id: string): Promise<AreaDto | null> {
+  async findOne(id: string): Promise<AreaDto | null> {
     const area = await this.repository.findById(id);
     return AreaMapper.toAreaDto(area);
   }

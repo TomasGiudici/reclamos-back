@@ -33,7 +33,7 @@ export class AreaController {
   @ApiResponse({ type: AreaDto })
   @Get(':id')
   findById(@Param('id') id: string) {
-    return this.service.findById(id);
+    return this.service.findOne(id);
   }
 
   @ApiResponse({ type: AreaDto })
