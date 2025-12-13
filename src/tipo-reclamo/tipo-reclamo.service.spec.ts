@@ -40,7 +40,6 @@ describe('TipoReclamoService', () => {
       providers: [
         TipoReclamoService,
         {
-          // ← Token EXACTAMENTE igual al del @Inject en el service
           provide: 'ITipoReclamoRepository',
           useValue: mockTipoReclamoRepository,
         },

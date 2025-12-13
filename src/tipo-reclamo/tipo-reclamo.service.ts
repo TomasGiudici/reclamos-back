@@ -17,6 +17,9 @@ export class TipoReclamoService {
 
   async findOne(id: string): Promise<TipoReclamoDto> {
     const tipoReclamo = await this.repository.findById(id);
+    if (!tipoReclamo) {
+      throw new Error(`TipoReclamo con id ${id} no encontrado`);
+    }
     return TipoReclamoMapper.toTipoReclamoDto(tipoReclamo);
   }
 }
