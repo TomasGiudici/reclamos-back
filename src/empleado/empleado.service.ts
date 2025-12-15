@@ -82,4 +82,12 @@ export class EmpleadoService {
     );
     return toEmpleadoDto(empleado);
   }
+
+  async findArea(id: string): Promise<string | null> {
+    const empleado = await this.empleadoRepository.findById(id);
+    if (!empleado) {
+      throw new BadRequestException('El empleado no existe.');
+    }
+    return empleado.areaId;
+  }
 }

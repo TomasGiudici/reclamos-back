@@ -15,4 +15,5 @@ export interface IReclamoRepository {
   update(data: ReclamoData): Promise<Reclamo>;
   updateEstado(data: CambioEstadoCreateData): Promise<Reclamo>;
   reassignArea(data: CambioEstadoCreateData): Promise<Reclamo>;
+  findAll(): Promise<Reclamo[]>;
 }

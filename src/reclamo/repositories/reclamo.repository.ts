@@ -195,4 +195,8 @@ export class ReclamoRepository implements IReclamoRepository {
       );
     }
   }
+
+  async findAll(): Promise<Reclamo[]> {
+    return prisma.reclamo.findMany();
+  }
 }

@@ -69,4 +69,11 @@ export class ReclamoController {
     const userId = req.user.id as string;
     return this.service.update(reclamoId, dto, userId);
   }
+
+  @Roles(Role.EMPLEADO)
+  @Get('empleado')
+  findByArea(@Req() req) {
+    const userId = req.user.id as string;
+    return this.service.findByArea(userId);
+  }
 }
