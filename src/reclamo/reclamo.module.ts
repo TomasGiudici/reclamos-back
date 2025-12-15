@@ -9,6 +9,7 @@ import { ReclamoValidator } from './validators/reclamo.validator';
 import { ReclamoHelper } from './helper/reclamo.helper';
 import { AreaModule } from 'src/area/area.module';
 import { EmpleadoModule } from 'src/empleado/empleado.module';
+import { AreaValidator } from './validators/area.validator';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { EmpleadoModule } from 'src/empleado/empleado.module';
     ReclamoService,
     ReclamoValidator,
     ReclamoHelper,
+    AreaValidator,
     { provide: 'IReclamoRepository', useClass: ReclamoRepository },
   ],
 })
