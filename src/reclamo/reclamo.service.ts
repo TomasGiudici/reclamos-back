@@ -17,6 +17,7 @@ import {
 } from '../cambio-estado/mappers/toCambioEstadoEntity';
 import { UpdateReclamoDto } from './dtos/update-reclamo.dto';
 import { EmpleadoService } from 'src/empleado/empleado.service';
+import { AreaValidator } from './validators/area.validator';
 
 @Injectable()
 export class ReclamoService {
@@ -24,6 +25,7 @@ export class ReclamoService {
     @Inject('IReclamoRepository')
     private readonly repository: IReclamoRepository,
     private readonly validator: ReclamoValidator,
+    private readonly areaValidator: AreaValidator,
     private readonly helper: ReclamoHelper,
     private readonly empleadoService: EmpleadoService,
   ) {}
@@ -68,6 +70,9 @@ export class ReclamoService {
       dto.estado,
     );
 
+    // validar el area
+    await this.areaValidator.validateArea(ultimoCambioEstado.areaId, userId);
+
     const dataCambioEstado = toCambioEstadoData(
       id,
       ultimoCambioEstado,
@@ -86,6 +91,9 @@ export class ReclamoService {
 
     // traer el cambio de estado actual del reclamo
     const cambioEstado = await this.helper.findLastCambioEstado(id);
+
+    // validar el area
+    await this.areaValidator.validateArea(cambioEstado.areaId, userId);
 
     // validar que el estado actual no sea Resuelto
     this.validator.validateCambioEstadoCliente(cambioEstado.estado);
